@@ -1,0 +1,8 @@
+{
+    "image": "mcr.microsoft.com/devcontainers/python:3.12",
+    "features": {
+        "ghcr.io/devcontainers/features/desktop-lite:1": {}
+    },
+    "forwardPorts": [8000, 5901, 6080],
+    "postCreateCommand": "sudo apt-get update && sudo apt-get install -y libgl1 libmtdev-dev xorg-dev"
+}
