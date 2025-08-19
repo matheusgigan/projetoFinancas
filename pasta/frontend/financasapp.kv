@@ -1,33 +1,30 @@
 # frontend/financasapp.kv
 
+#:import GerenciadorTelas telas.GerenciadorTelas
+#:import LoginScreen telas.LoginScreen
+#:import HomeScreen telas.HomeScreen
+
 GerenciadorTelas:
     LoginScreen:
-        name: 'login'
     HomeScreen:
-        name: 'home'
 
 <LoginScreen>:
-    # Damos um 'id' para os campos de texto para que o Python possa acessá-los
-    id: login_screen
-
+    name: 'login'
     BoxLayout:
         orientation: 'vertical'
         padding: dp(30)
         spacing: dp(15)
-
         Label:
             text: 'Bem-vindo!'
             font_size: '32sp'
             size_hint_y: None
             height: self.texture_size[1]
-
         TextInput:
             id: login_input
             hint_text: 'Usuário'
             multiline: False
             size_hint_y: None
             height: dp(40)
-
         TextInput:
             id: password_input
             hint_text: 'Senha'
@@ -35,13 +32,16 @@ GerenciadorTelas:
             multiline: False
             size_hint_y: None
             height: dp(40)
-
         Button:
             text: 'Entrar'
             size_hint_y: None
             height: dp(50)
-            # Ação mágica: ao pressionar, chama a função 'fazer_login' da classe LoginScreen
             on_press: root.fazer_login()
-
-        Label: # Espaço em branco para empurrar tudo para cima
+        Label:
             text: ''
+
+<HomeScreen>:
+    name: 'home'
+    Label:
+        text: 'Login realizado com sucesso!'
+        font_size: '24sp'
