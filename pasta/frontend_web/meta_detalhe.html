@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhes da Meta</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <main class="container">
+        <a href="home.html">&larr; Voltar para o Dashboard</a>
+        <h1 id="nome-meta">Carregando...</h1>
+
+        <div class="card">
+            <p>Progresso: <b id="progresso-texto">0%</b></p>
+            <div class="progress-bar-container">
+                <div id="progress-bar" class="progress-bar" style="width: 0%;"></div>
+            </div>
+            <p><span id="valor-atual">R$ 0.00</span> / <span id="valor-meta">R$ 0.00</span></p>
+        </div>
+
+        <hr>
+
+        <h2>Fazer um Depósito</h2>
+        <form id="form-depositar" class="form-inline">
+            <input type="number" id="valor-deposito" placeholder="Valor a depositar" step="0.01" required>
+            <button type="submit">Depositar</button>
+        </form>
+    </main>
+    <script src="meta_detalhe.js"></script>
+</body>
+</html>

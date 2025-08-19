@@ -1,0 +1,118 @@
+/* --- ESTILOS GERAIS E MOBILE-FIRST --- */
+
+/* Zera margens e paddings padrões */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: sans-serif;
+    background-color: #f0f2f5;
+    /* Usa flexbox para centralizar o container do login na tela */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* Ocupa no mínimo 100% da altura da tela */
+}
+
+.login-container {
+    background-color: white;
+    padding: 2rem;
+    width: 90%; /* Ocupa 90% da tela no celular, com pequenas margens */
+    max-width: 400px; /* Mas nunca passará de 400px de largura */
+    border-radius: 8px;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column; /* Itens empilhados na vertical por padrão */
+    gap: 1rem; /* Espaço entre os itens do formulário */
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+input, button {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+
+/* --- ESTILOS PARA TELAS MAIORES (DESKTOPS) --- */
+@media (min-width: 768px) {
+    .login-container {
+        /* Em telas grandes, adiciona uma sombra para dar profundidade */
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+}
+
+/* Adicione no final de style.css */
+.form-inline {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.form-inline input {
+    flex-grow: 1; /* Faz o input ocupar o espaço disponível */
+}
+
+/* Adicione no final de style.css */
+.card {
+    background-color: #e9ecef;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+.card-principal h2 {
+    margin-bottom: 0.5rem;
+    font-size: 1.2rem;
+    color: #495057;
+}
+.card-principal p {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #2a9d8f;
+}
+
+/* Adicione no final de style.css */
+.progress-bar-container {
+    width: 100%;
+    background-color: #e9ecef;
+    border-radius: 4px;
+    margin: 1rem 0;
+}
+.progress-bar {
+    height: 20px;
+    background-color: #2a9d8f;
+    width: 0%; /* O JavaScript vai controlar isso */
+    border-radius: 4px;
+    transition: width 0.5s ease-in-out;
+}
+
+/* Adicione no final do style.css */
+.button-link {
+    display: inline-block;
+    padding: 0.8rem 1.5rem;
+    background-color: #6c757d; /* Uma cor secundária */
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    text-align: center;
+    margin-bottom: 1.5rem;
+}

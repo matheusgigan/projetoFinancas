@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <main class="container">
+        <h1 id="welcome-message">Carregando...</h1>
+
+        <a href="calendario.html" class="button-link">Ver Calendário Financeiro</a>
+
+        <div class="card card-principal">
+            <h2>Dinheiro Livre este Mês</h2>
+            <p id="dinheiro-livre">R$ 0,00</p>
+        </div>
+        <form id="form-criar-renda" class="form-inline">
+            <input type="text" id="descricao-renda" placeholder="Descrição da Renda" required>
+            <input type="number" id="valor-renda" placeholder="Valor" step="0.01" required>
+            <select id="tipo-renda" required>
+                <option value="FIXA">Renda Fixa</option>
+                <option value="EXTRA">Renda Extra</option>
+            </select>
+            <button type="submit">Adicionar Renda</button>
+        </form>
+        <hr>
+        <h2>Minhas Metas de Poupança</h2>
+        <ul id="lista-metas">
+            <li>Carregando metas...</li>
+        </ul>
+        <hr>
+        <h2>Meus Gastos Fixos</h2>
+        <form id="form-criar-gasto-fixo" class="form-inline">
+            <input type="text" id="descricao-gasto-fixo" placeholder="Descrição (ex: Internet)" required>
+            <input type="number" id="valor-gasto-fixo" placeholder="Valor" step="0.01" required>
+            <input type="date" id="data-gasto-fixo" required>
+            <button type="submit">Adicionar</button>
+        </form>
+        <ul id="lista-gastos-fixos">
+            <li>Carregando gastos fixos...</li>
+        </ul>
+        <hr>
+        <h2>Meus Grupos</h2>
+        <form id="form-criar-grupo" class="form-inline">
+            <input type="text" id="nome-novo-grupo" placeholder="Nome do novo grupo" required>
+            <button type="submit">Criar Grupo</button>
+        </form>
+        <ul id="lista-grupos">
+            <li>Carregando grupos...</li>
+        </ul>
+    </main>
+    <script src="home.js"></script>
+</body>
+</html>

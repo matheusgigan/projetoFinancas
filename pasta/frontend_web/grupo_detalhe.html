@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhes do Grupo</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <main class="container">
+        <a href="home.html">&larr; Voltar para Meus Grupos</a>
+        <h1 id="nome-grupo">Carregando...</h1>
+        <hr>
+        <h2>Adicionar Nova Despesa</h2>
+        <form id="form-add-despesa" class="form-inline">
+            <input type="text" id="descricao-despesa" placeholder="Descrição (ex: Supermercado)" required>
+            <input type="number" id="valor-despesa" placeholder="Valor (ex: 150.50)" step="0.01" required>
+            <button type="submit">Adicionar</button>
+        </form>
+
+        <h2>Despesas do Grupo</h2>
+        <ul id="lista-despesas">
+            <li>Carregando despesas...</li>
+        </ul>
+    </main>
+
+    <script src="grupo_detalhe.js"></script>
+</body>
+</html>
