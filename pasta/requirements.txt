@@ -1,0 +1,16 @@
+asgiref==3.9.1
+certifi==2025.8.3
+charset-normalizer==3.4.3
+Django==5.2.5
+django-cors-headers==4.7.0
+djangorestframework==3.16.1
+docutils==0.22
+drf-nested-routers==0.94.2
+filetype==1.2.0
+idna==3.10
+Kivy==2.3.1
+Kivy-Garden==0.1.5
+Pygments==2.19.2
+requests==2.32.4
+sqlparse==0.5.3
+urllib3==2.5.0
