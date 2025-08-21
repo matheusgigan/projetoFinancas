@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Extrato Financeiro</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Estilos específicos da tabela de extrato */
+        .extrato-table { width: 100%; border-collapse: collapse; margin-top: 1.5rem; }
+        .extrato-table th, .extrato-table td { border: 1px solid #dee2e6; padding: 0.75rem; text-align: left; }
+        .extrato-table th { background-color: #f8f9fa; }
+        .valor-positivo { color: #28a745; font-weight: bold; }
+        .valor-negativo { color: #dc3545; }
+    </style>
+</head>
+<body>
+    <main class="container">
+        <h1>Extrato de Transações</h1>
+        <table class="extrato-table">
+            <thead>
+                <tr>
+                    <th>Data</th>
+                    <th>Descrição</th>
+                    <th>Tipo</th>
+                    <th>Valor (R$)</th>
+                </tr>
+            </thead>
+            <tbody id="corpo-tabela-extrato"></tbody>
+        </table>
+    </main>
+    <script src="relatorio.js"></script>
+    <script src="app.js"></script>
+
+    <nav class="bottom-nav">
+    <a href="calendario.html" class="nav-link">
+        <i class="fas fa-calendar-alt"></i>
+        <span class="nav-text">Calendário</span>
+    </a>
+    <a href="adicionar.html" class="nav-link fab">
+        <i class="fas fa-plus"></i>
+    </a>
+    <a href="relatorio.html" class="nav-link">
+        <i class="fas fa-chart-bar"></i>
+        <span class="nav-text">Extrato</span>
+    </a>
+</nav>
+</body>
+</html>

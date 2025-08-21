@@ -4,26 +4,42 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detalhes do Grupo</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <main class="container">
-        <a href="home.html">&larr; Voltar para Meus Grupos</a>
+        <a href="home.html">&larr; Voltar para o Dashboard</a>
         <h1 id="nome-grupo">Carregando...</h1>
         <hr>
-        <h2>Adicionar Nova Despesa</h2>
-        <form id="form-add-despesa" class="form-inline">
-            <input type="text" id="descricao-despesa" placeholder="Descrição (ex: Supermercado)" required>
-            <input type="number" id="valor-despesa" placeholder="Valor (ex: 150.50)" step="0.01" required>
-            <button type="submit">Adicionar</button>
+
+        <h2>Membros do Grupo</h2>
+        <ul id="lista-membros"></ul>
+        <form id="form-convidar-membro" class="form-inline" style="display: none;">
+            <input type="text" id="username-convite" placeholder="Nome de usuário para convidar" required>
+            <button type="submit">Convidar</button>
         </form>
 
-        <h2>Despesas do Grupo</h2>
-        <ul id="lista-despesas">
-            <li>Carregando despesas...</li>
-        </ul>
-    </main>
+        <hr>
+        
+        <h2>Metas do Grupo (Vaquinha)</h2>
+        <form id="form-criar-meta-grupo" class="form-inline">
+            <input type="text" id="nome-meta-grupo" placeholder="Nome da nova meta" required>
+            <input type="number" id="valor-meta-grupo" placeholder="Valor total (R$)" step="0.01" required>
+            <button type="submit">Criar Meta</button>
+        </form>
+        <div id="lista-metas-grupo"></div>
 
+    </main>
     <script src="grupo_detalhe.js"></script>
+    <script src="app.js"></script>
+
+    <nav class="bottom-nav">
+        <a href="calendario.html" class="nav-link"><i class="fas fa-calendar-alt"></i><span class="nav-text">Calendário</span></a>
+        <a href="home.html" class="nav-link fab"><i class="fas fa-home"></i></a>
+        <a href="relatorio.html" class="nav-link"><i class="fas fa-chart-bar"></i><span class="nav-text">Extrato</span></a>
+    </nav>
 </body>
 </html>
