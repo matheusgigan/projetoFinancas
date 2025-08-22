@@ -397,3 +397,56 @@ body {
 .input-invalid {
     border-color: #dc3545;
 }
+
+
+/* Estilos para o novo Dashboard */
+.link-discreto {
+    font-size: 0.9rem;
+    color: #6c757d;
+    text-decoration: none;
+    margin-top: 1rem;
+    display: inline-block;
+}
+.link-discreto:hover {
+    text-decoration: underline;
+}
+
+.lista-resumo {
+    list-style-type: none;
+    padding-left: 0;
+    width: 100%;
+}
+
+.lista-resumo li {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #e9ecef;
+}
+.lista-resumo li:last-child {
+    border-bottom: none;
+}
+
+/* Estilos para os Banners de Meta */
+.meta-banner {
+    margin-bottom: 1rem;
+}
+.meta-banner p {
+    margin: 0.25rem 0;
+    font-size: 0.9rem;
+}
+
+/* Adicione no final de style.css */
+.auth-link {
+    text-align: center;
+    margin-top: 1.5rem;
+    font-size: 0.9rem;
+    color: #6c757d;
+}
+.auth-link a {
+    color: #007bff;
+    text-decoration: none;
+}
+.auth-link a:hover {
+    text-decoration: underline;
+}

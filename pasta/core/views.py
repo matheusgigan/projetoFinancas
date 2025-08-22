@@ -3,6 +3,7 @@ from datetime import date
 from django.db.models import Sum
 from django.contrib.auth.models import User
 from rest_framework.views import APIView
+from django.views.generic import TemplateView
 
 from rest_framework import viewsets, permissions, status
 from rest_framework.decorators import action
@@ -256,6 +257,7 @@ class PagamentoGastoFixoViewSet(viewsets.ModelViewSet):
             usuario=self.request.user,
             descricao_pagamento=gasto_fixo.descricao,
             valor_pagamento=gasto_fixo.valor,
+            categoria_pagamento=gasto_fixo.categoria,
             mes=mes,
             ano=ano
         )
@@ -265,46 +267,40 @@ class ChartDataView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request, *args, **kwargs):
+        hoje = date.today()
+        mes_atual = hoje.month
+        ano_atual = hoje.year
+
+        # Filtra os pagamentos e despesas do mês e ano atuais
+        pagamentos = PagamentoGastoFixo.objects.filter(
+            usuario=request.user, mes=mes_atual, ano=ano_atual
+        )
+        despesas_grupo = Despesa.objects.filter(
+            grupo__membros=request.user, 
+            data_despesa__month=mes_atual, 
+            data_despesa__year=ano_atual
+        )
+
         dados_agrupados = {}
 
-        # 1. Soma os PAGAMENTOS DE GASTOS FIXOS por categoria
-        pagamentos = PagamentoGastoFixo.objects.filter(
-            usuario=request.user,
-            gasto_fixo__isnull=False
-        )
+        # Agrupa os pagamentos pela sua categoria histórica
         for pagamento in pagamentos:
-            # Usamos .get_categoria_display() para pegar o nome amigável (ex: "Moradia")
-            categoria = pagamento.gasto_fixo.get_categoria_display()
-            if categoria not in dados_agrupados:
-                dados_agrupados[categoria] = 0
+            categoria = pagamento.get_categoria_pagamento_display()
+            dados_agrupados.setdefault(categoria, Decimal(0))
             dados_agrupados[categoria] += pagamento.valor_pagamento
 
-        # 2. Soma as DESPESAS DE GRUPO por categoria
-        despesas_de_grupo = Despesa.objects.filter(
-            grupo__membros=request.user # Busca despesas de grupos que o usuário participa
-        )
-        for despesa in despesas_de_grupo:
+        # Agrupa as despesas de grupo pela sua categoria
+        for despesa in despesas_grupo:
             categoria = despesa.get_categoria_display()
-            if categoria not in dados_agrupados:
-                dados_agrupados[categoria] = 0
-            # Consideramos que o valor da despesa de grupo é dividido igualmente
-            # (Esta é uma simplificação, poderíamos tornar mais complexo no futuro)
-            # valor_individual = despesa.valor / despesa.grupo.membros.count()
-            # Por enquanto, vamos somar o valor total da despesa para o gráfico
+            dados_agrupados.setdefault(categoria, Decimal(0))
             dados_agrupados[categoria] += despesa.valor
 
-        # 3. Formata os dados para o Chart.js
-        # Ordena as categorias da que tem o maior gasto para a menor
         categorias_ordenadas = sorted(dados_agrupados.items(), key=lambda item: item[1], reverse=True)
 
         labels = [item[0] for item in categorias_ordenadas]
         data = [item[1] for item in categorias_ordenadas]
 
-        response_data = {
-            'labels': labels,
-            'data': data
-        }
-        return Response(response_data)
+        return Response({'labels': labels, 'data': data})
     
 # --- NOVA VIEW PARA O EXTRATO UNIFICADO ---
 class ExtratoView(APIView):
@@ -358,3 +354,36 @@ class ExtratoView(APIView):
         transacoes_ordenadas = sorted(transacoes, key=lambda t: t['data'], reverse=True)
 
         return Response(transacoes_ordenadas)
+    
+class LoginView(TemplateView):
+    template_name = "index.html"
+
+class HomeView(TemplateView):
+    template_name = "home.html"
+
+class RegisterView(TemplateView):
+    template_name = "register.html"
+
+class AdicionarView(TemplateView):
+    template_name = "adicionar.html"
+
+class GastosView(TemplateView):
+    template_name = "gastos.html"
+
+class MetasView(TemplateView):
+    template_name = "metas.html"
+
+class GruposView(TemplateView):
+    template_name = "grupos.html"
+
+class MetaDetalheView(TemplateView):
+    template_name = "meta_detalhe.html"
+
+class GrupoDetalheView(TemplateView):
+    template_name = "grupo_detalhe.html"
+
+class CalendarioView(TemplateView):
+    template_name = "calendario.html"
+
+class RelatorioView(TemplateView):
+    template_name = "relatorio.html"

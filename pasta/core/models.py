@@ -114,18 +114,27 @@ class Contribuicao(models.Model):
         return f"R${self.valor_contribuicao} por {self.usuario.username} para {self.descricao_contribuicao}"
     
 class PagamentoGastoFixo(models.Model):
-    gasto_fixo = models.ForeignKey(GastoFixo, on_delete=models.SET_NULL, null=True, related_name='pagamentos')
+    gasto_fixo = models.ForeignKey(
+        GastoFixo, 
+        on_delete=models.SET_NULL, 
+        null=True, 
+        related_name='pagamentos'
+    )
     usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    # "FOTO" DA DESPESA NO MOMENTO DO PAGAMENTO
     descricao_pagamento = models.CharField(max_length=100)
     valor_pagamento = models.DecimalField(max_digits=10, decimal_places=2)
-    # O CAMPO CATEGORIA FOI REMOVIDO DAQUI
+    # O CAMPO MAIS IMPORTANTE: A categoria é copiada para o registro histórico
+    categoria_pagamento = models.CharField(
+        max_length=20,
+        choices=CategoriaDespesa.choices,
+        default=CategoriaDespesa.OUTROS
+    )
+
     data_pagamento = models.DateField(auto_now_add=True)
     mes = models.IntegerField()
     ano = models.IntegerField()
 
     def __str__(self):
-        if self.gasto_fixo:
-            return f"Pagamento de {self.gasto_fixo.descricao} em {self.data_pagamento.strftime('%d/%m/%Y')}"
-        return f"Pagamento de Gasto Fixo deletado em {self.data_pagamento.strftime('%d/%m/%Y')}"
-
-
+        return f"Pagamento de {self.descricao_pagamento} em {self.data_pagamento.strftime('%d/%m/%Y')}"

@@ -1,0 +1,50 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <div id="loader" class="loader-overlay" style="display: none;"><div class="spinner"></div></div>
+
+    <main class="container">
+        <h1 id="welcome-message">Carregando...</h1>
+        <button id="logout-btn" class="button-logout">Sair (Logout)</button>
+
+        <div class="card card-principal">
+            <h2>Dinheiro Livre este Mês</h2>
+            <p id="dinheiro-livre">R$ 0,00</p>
+            <a href="relatorio.html" class="link-discreto">Ver extrato completo &rarr;</a>
+        </div>
+
+        <div id="lembretes-container" class="card">
+            <h2>Lembretes de Próximos Gastos</h2>
+            <ul id="lista-lembretes-gastos" class="lista-resumo">
+                </ul>
+        </div>
+
+        <div id="metas-container" class="card">
+            <h2>Progresso das Metas</h2>
+            <div id="banners-metas-pessoais"></div>
+        </div>
+
+    </main>
+
+    <script src="{% static 'js/home.js' %}"></script>
+
+    <nav class="bottom-nav">
+        <a href="home.html" class="nav-link active"><i class="fas fa-home"></i><span class="nav-text">Dashboard</span></a>
+        <a href="rendas.html" class="nav-link"><i class="fas fa-hand-holding-usd"></i><span class="nav-text">Rendas</span></a>
+        <a href="gastos.html" class="nav-link"><i class="fas fa-wallet"></i><span class="nav-text">Gastos</span></a>
+        <a href="metas.html" class="nav-link"><i class="fas fa-bullseye"></i><span class="nav-text">Metas</span></a>
+        <a href="grupos.html" class="nav-link"><i class="fas fa-users"></i><span class="nav-text">Grupos</span></a>
+    </nav>
+</body>
+</html>

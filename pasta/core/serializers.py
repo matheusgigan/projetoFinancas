@@ -64,5 +64,5 @@ class PagamentoGastoFixoSerializer(serializers.ModelSerializer):
     valor_pagamento = serializers.DecimalField(max_digits=10, decimal_places=2, read_only=True)
     class Meta:
         model = PagamentoGastoFixo
-        # Removemos 'categoria' daqui
-        fields = ['id', 'gasto_fixo', 'data_pagamento', 'descricao_pagamento', 'valor_pagamento']
+        fields = ['id', 'gasto_fixo', 'data_pagamento', 'descricao_pagamento', 'valor_pagamento', 'categoria_pagamento']
+        read_only_fields = ['gasto_fixo', 'descricao_pagamento', 'valor_pagamento', 'categoria_pagamento']
