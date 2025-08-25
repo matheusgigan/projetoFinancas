@@ -2,6 +2,7 @@
 
 from django.urls import path
 from rest_framework_nested import routers
+
 from .views import (
     GrupoViewSet, 
     DespesaViewSet, 
@@ -14,7 +15,8 @@ from .views import (
     MinhasContribuicoesViewSet,
     PagamentoGastoFixoViewSet, 
     ChartDataView, 
-    ExtratoView
+    ExtratoView,
+    MinhasMetasGrupoViewSet
 )
 
 # Roteador principal para os endpoints de nível superior
@@ -26,6 +28,7 @@ router.register(r'rendas', RendaViewSet, basename='renda')
 router.register(r'depositos-meta', DepositoMetaViewSet, basename='depositometa')
 router.register(r'minhas-contribuicoes', MinhasContribuicoesViewSet, basename='minhacontribuicao')
 router.register(r'pagamentos-gastos-fixos', PagamentoGastoFixoViewSet, basename='pagamentogastofixo')
+router.register(r'minhas-metas-grupo', MinhasMetasGrupoViewSet, basename='minhametagrupo')
 
 # Roteadores aninhados para relações (ex: despesas de um grupo)
 grupos_router = routers.NestedDefaultRouter(router, r'grupos', lookup='grupo')

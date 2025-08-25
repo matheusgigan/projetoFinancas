@@ -12,36 +12,47 @@
 </head>
 <body>
     <main class="container">
-        <a href="home.html">&larr; Voltar para o Dashboard</a>
+        <a href="grupos.html">&larr; Voltar para Meus Grupos</a>
         <h1 id="nome-grupo">Carregando...</h1>
-        <hr>
-
-        <h2>Membros do Grupo</h2>
-        <ul id="lista-membros"></ul>
-        <form id="form-convidar-membro" class="form-inline" style="display: none;">
-            <input type="text" id="username-convite" placeholder="Nome de usuário para convidar" required>
-            <button type="submit">Convidar</button>
-        </form>
-
-        <hr>
         
-        <h2>Metas do Grupo (Vaquinha)</h2>
-        <form id="form-criar-meta-grupo" class="form-inline">
-            <input type="text" id="nome-meta-grupo" placeholder="Nome da nova meta" required>
-            <input type="number" id="valor-meta-grupo" placeholder="Valor total (R$)" step="0.01" required>
-            <button type="submit">Criar Meta</button>
-        </form>
-        <div id="lista-metas-grupo"></div>
+        <div class="card">
+            <h2>Membros do Grupo</h2>
+            <ul id="lista-membros"></ul>
+            <form id="form-convidar-membro" class="form-inline">
+                <input type="text" id="username-convite" placeholder="Nome de usuário para convidar" required>
+                <button type="submit">Convidar</button>
+            </form>
+        </div>
 
+        <div class="card card-grupos">
+            <h2>Metas do Grupo (Vaquinha)</h2>
+            <form id="form-criar-meta-grupo" class="form-inline">
+                <input type="text" id="nome-meta-grupo" placeholder="Nome da nova meta" required>
+                <input type="number" id="valor-meta-grupo" placeholder="Valor total (R$)" step="0.01" required>
+                <button type="submit">Criar Meta</button>
+            </form>
+            <div id="lista-metas-grupo"></div>
+        </div>
     </main>
     <script src="{% static 'js/grupo_detalhe.js' %}"></script>
 
     <nav class="bottom-nav">
-        <a href="home.html" class="nav-link active"><i class="fas fa-home"></i><span class="nav-text">Dashboard</span></a>
-        <a href="rendas.html" class="nav-link"><i class="fas fa-hand-holding-usd"></i><span class="nav-text">Rendas</span></a>
-        <a href="gastos.html" class="nav-link"><i class="fas fa-wallet"></i><span class="nav-text">Gastos</span></a>
-        <a href="metas.html" class="nav-link"><i class="fas fa-bullseye"></i><span class="nav-text">Metas</span></a>
-        <a href="grupos.html" class="nav-link"><i class="fas fa-users"></i><span class="nav-text">Grupos</span></a>
-    </nav>
+        <a href="home.html" class="nav-link">
+            <i class="fas fa-home"></i>
+            <span class="nav-text">Dashboard</span>
+        </a>
+        <a href="calendario.html" class="nav-link">
+            <i class="fas fa-calendar-alt"></i>
+            <span class="nav-text">Calendário</span>
+        </a>
+        <a href="estatisticas.html" class="nav-link">
+            <i class="fas fa-chart-pie"></i>
+            <span class="nav-text">Gráficos</span>
+        </a>
+        <a href="menu.html" class="nav-link">
+            <i class="fas fa-bars"></i>
+            <span class="nav-text">Menu</span>
+        </a>
+    </nav> 
 </body>
 </html>

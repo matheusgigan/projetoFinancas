@@ -17,7 +17,8 @@ from .models import (
 from .serializers import (
     GrupoSerializer, DespesaSerializer, GastoFixoSerializer, 
     MetaPessoalSerializer, RendaSerializer, DepositoMetaSerializer,
-    MetaGrupoSerializer, ContribuicaoSerializer, PagamentoGastoFixoSerializer
+    MetaGrupoSerializer, ContribuicaoSerializer, PagamentoGastoFixoSerializer,
+    MetaGrupoDashboardSerializer
 )
 
 
@@ -166,27 +167,6 @@ class DepositoMetaViewSet(viewsets.ReadOnlyModelViewSet):
 
     def get_queryset(self):
         return DepositoMeta.objects.filter(meta__usuario=self.request.user)
-
-
-class MetaGrupoViewSet(viewsets.ModelViewSet):
-    """
-    API para gerenciar Metas de Grupo (Vaquinhas), aninhada em Grupos.
-    """
-    serializer_class = MetaGrupoSerializer
-    permission_classes = [permissions.IsAuthenticated]
-
-    def get_queryset(self):
-        grupo_id = self.kwargs['grupo_pk']
-        if self.request.user.grupos_participantes.filter(pk=grupo_id).exists():
-            return MetaGrupo.objects.filter(grupo_id=grupo_id)
-        return MetaGrupo.objects.none()
-
-    def perform_create(self, serializer):
-        grupo_id = self.kwargs['grupo_pk']
-        grupo = Grupo.objects.get(pk=grupo_id)
-        if self.request.user not in grupo.membros.all():
-            raise PermissionDenied("Você não pode criar metas neste grupo.")
-        serializer.save(criado_por=self.request.user, grupo=grupo)
 
 
 class ContribuicaoViewSet(viewsets.ModelViewSet):
@@ -387,3 +367,56 @@ class CalendarioView(TemplateView):
 
 class RelatorioView(TemplateView):
     template_name = "relatorio.html"
+
+class RendasView(TemplateView):
+    template_name = "rendas.html"
+
+class MenuView(TemplateView):
+    template_name = "menu.html"
+
+class EstatisticasView(TemplateView):
+    template_name = "estatisticas.html"
+
+class MetaGrupoDetalheView(TemplateView):
+    template_name = "meta_grupo_detalhe.html"
+
+
+class MetaGrupoViewSet(viewsets.ModelViewSet):
+    serializer_class = MetaGrupoSerializer # Usa o serializer COMPLETO
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        """
+        LÓGICA DE BUSCA CORRIGIDA E EXPLÍCITA
+        """
+        grupo_id = self.kwargs.get('grupo_pk')
+        # 1. Pega os grupos do usuário
+        meus_grupos = self.request.user.grupos_participantes.all()
+        # 2. Se o grupo pedido não está na lista de grupos do usuário, não retorna nada
+        if not meus_grupos.filter(pk=grupo_id).exists():
+            return MetaGrupo.objects.none()
+        # 3. Se está na lista, retorna as metas daquele grupo
+        return MetaGrupo.objects.filter(grupo_id=grupo_id)
+
+    def perform_create(self, serializer):
+        # Esta função já estava correta
+        grupo_id = self.kwargs['grupo_pk']
+        grupo = Grupo.objects.get(pk=grupo_id)
+        if self.request.user not in grupo.membros.all():
+            raise PermissionDenied("Você não pode criar metas neste grupo.")
+        serializer.save(criado_por=self.request.user, grupo=grupo)
+
+
+class MinhasMetasGrupoViewSet(viewsets.ReadOnlyModelViewSet):
+    # Continua usando o serializer SIMPLES para o dashboard
+    serializer_class = MetaGrupoDashboardSerializer 
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        """
+        LÓGICA DE BUSCA CORRIGIDA E EXPLÍCITA
+        """
+        # 1. Pega todos os IDs dos grupos em que o usuário é membro
+        ids_dos_meus_grupos = self.request.user.grupos_participantes.values_list('id', flat=True)
+        # 2. Retorna todas as metas que pertencem a qualquer um desses grupos
+        return MetaGrupo.objects.filter(grupo_id__in=ids_dos_meus_grupos)

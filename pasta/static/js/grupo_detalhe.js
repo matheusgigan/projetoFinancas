@@ -86,27 +86,25 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             metas.forEach(meta => {
                 const progresso = (parseFloat(meta.valor_atual) / parseFloat(meta.valor_meta)) * 100;
-                const card = document.createElement('div');
-                card.className = 'meta-card';
-                card.innerHTML = `
-                    <h3>${meta.nome}</h3>
-                    <p>Progresso: <b>${progresso.toFixed(1)}%</b></p>
-                    <div class="progress-bar-container"><div class="progress-bar" style="width: ${progresso}%;"></div></div>
-                    <p>R$ ${parseFloat(meta.valor_atual).toFixed(2)} / R$ ${parseFloat(meta.valor_meta).toFixed(2)}</p>
-                    <h4>Contribuições:</h4>
-                    <ul class="contribuicoes-lista">
-                        ${meta.contribuicoes.map(c => `<li>${c.usuario}: R$ ${parseFloat(c.valor_contribuicao).toFixed(2)}</li>`).join('')}
-                    </ul>
-                    <form class="form-inline form-contribuir" data-meta-id="${meta.id}">
-                        <input type="number" class="input-valor-contribuicao" placeholder="Seu valor" step="0.01" required>
-                        <button type="submit">Contribuir</button>
-                    </form>
+                const link = document.createElement('a');
+                link.className = 'meta-card-link';
+                // O link agora passa os dois IDs necessários para a nova página
+                link.href = `meta_grupo_detalhe.html?grupoId=${grupoId}&metaId=${meta.id}`;
+                
+                link.innerHTML = `
+                    <div class="card">
+                        <h3>${meta.nome}</h3>
+                        <p>Progresso: <b>${progresso.toFixed(1)}%</b></p>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar" style="width: ${progresso > 100 ? 100 : progresso}%;"></div>
+                        </div>
+                        <p>R$ ${parseFloat(meta.valor_atual).toFixed(2)} / R$ ${parseFloat(meta.valor_meta).toFixed(2)}</p>
+                    </div>
                 `;
-                listaMetasGrupoElement.appendChild(card);
+                listaMetasGrupoElement.appendChild(link);
             });
         }
     };
-
     // --- Lógica dos Formulários ---
 
     // Criar nova meta de grupo

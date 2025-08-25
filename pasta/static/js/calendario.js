@@ -8,8 +8,8 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
     const headers = { 'Authorization': `Token ${token}` };
-    
-    // Funções auxiliares para notificações (Toastify)
+
+    // Função auxiliar para notificações de erro
     const showErrorToast = (message) => {
         Toastify({
             text: message, duration: 3000, gravity: "top", position: "right",
@@ -18,45 +18,46 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // --- LÓGICA DA PÁGINA DO CALENDÁRIO ---
+
+    // 1. Seleciona o elemento HTML onde o calendário será desenhado
     const calendarioElement = document.getElementById('calendario');
 
     const carregarCalendario = async () => {
+        // Garante que só vamos tentar criar o calendário se o elemento existir na página
+        if (!calendarioElement) {
+            console.error("Elemento com id 'calendario' não foi encontrado na página.");
+            return;
+        }
+
         try {
-            // 1. Busca os dados dos gastos fixos na nossa API
             const response = await fetch('http://127.0.0.1:8000/api/gastos-fixos/', { headers });
             if (!response.ok) throw new Error('Falha ao buscar dados.');
 
             const gastosFixos = await response.json();
 
-            // 2. Transforma nossos dados para o formato que o FullCalendar espera
             const eventosFormatados = gastosFixos.map(gasto => {
                 return {
-                    title: `${gasto.descricao} - R$ ${gasto.valor}`, // O texto que aparece no evento
-                    start: gasto.data_vencimento, // A data de início do evento
-                    allDay: true, // O evento dura o dia todo
-                    backgroundColor: '#dc3545', // Deixa o evento vermelho
-                    borderColor: '#dc3545'      // Cor da borda
+                    title: `${gasto.descricao} - R$ ${gasto.valor}`,
+                    start: gasto.data_vencimento,
+                    allDay: true,
+                    backgroundColor: '#dc3545',
+                    borderColor: '#dc3545'
                 };
             });
 
-            // 3. Inicializa o calendário
+            // 2. Inicializa o calendário usando a variável correta 'calendarioElement'
             const calendar = new FullCalendar.Calendar(calendarioElement, {
-                initialView: 'dayGridMonth', // Visão de mês
-                locale: 'pt-br', // Traduz para o português
+                initialView: 'dayGridMonth',
+                locale: 'pt-br',
+                height: 'auto', // Garante que todas as semanas sejam exibidas
                 headerToolbar: {
                     left: 'prev,next today',
                     center: 'title',
-                    right: 'dayGridMonth,timeGridWeek,dayGridDay' // Opções de visualização
+                    right: 'dayGridMonth,timeGridWeek,dayGridDay'
                 },
-                events: eventosFormatados, // Aqui passamos nossos gastos como eventos!
-                eventTimeFormat: { // Para não mostrar a hora em eventos de dia todo
-                    hour: '2-digit',
-                    minute: '2-digit',
-                    meridiem: false
-                }
+                events: eventosFormatados
             });
 
-            // 4. Desenha o calendário na tela
             calendar.render();
 
         } catch (error) {

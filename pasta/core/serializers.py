@@ -52,11 +52,23 @@ class ContribuicaoSerializer(serializers.ModelSerializer):
         
 class MetaGrupoSerializer(serializers.ModelSerializer):
     criado_por = serializers.ReadOnlyField(source='criado_por.username')
-    # Aninha o serializer de contribuições para mostrar a lista de quem contribuiu
     contribuicoes = ContribuicaoSerializer(many=True, read_only=True)
+    # A LINHA ADICIONADA: Garante que o ID do grupo pai seja incluído na resposta.
+    grupo = serializers.PrimaryKeyRelatedField(read_only=True)
+
     class Meta:
         model = MetaGrupo
-        fields = ['id', 'nome', 'valor_meta', 'valor_atual', 'criado_por', 'data_criacao', 'contribuicoes']
+        # Adicionamos 'grupo' à lista de campos
+        fields = [
+            'id', 
+            'grupo', 
+            'nome', 
+            'valor_meta', 
+            'valor_atual', 
+            'criado_por', 
+            'data_criacao', 
+            'contribuicoes'
+        ]
 
 class PagamentoGastoFixoSerializer(serializers.ModelSerializer):
     # Estes campos garantem que a API sempre retorne os dados corretos
@@ -66,3 +78,10 @@ class PagamentoGastoFixoSerializer(serializers.ModelSerializer):
         model = PagamentoGastoFixo
         fields = ['id', 'gasto_fixo', 'data_pagamento', 'descricao_pagamento', 'valor_pagamento', 'categoria_pagamento']
         read_only_fields = ['gasto_fixo', 'descricao_pagamento', 'valor_pagamento', 'categoria_pagamento']
+
+class MetaGrupoDashboardSerializer(serializers.ModelSerializer):
+    grupo = serializers.PrimaryKeyRelatedField(read_only=True)
+
+    class Meta:
+        model = MetaGrupo
+        fields = ['id', 'grupo', 'nome', 'valor_meta', 'valor_atual']

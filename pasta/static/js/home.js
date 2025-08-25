@@ -1,4 +1,4 @@
-// frontend_web/home.js
+// frontend_web/home.js (VERSÃO FINAL DO DASHBOARD SIMPLIFICADO)
 
 document.addEventListener('DOMContentLoaded', () => {
     const token = localStorage.getItem('authToken');
@@ -8,11 +8,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const showSuccessToast = (message) => Toastify({ text: message, duration: 2000, style: { background: "linear-gradient(to right, #00b09b, #96c93d)" } }).showToast();
     const showErrorToast = (message) => Toastify({ text: message, style: { background: "linear-gradient(to right, #ff5f6d, #ffc371)" } }).showToast();
 
-    // --- Seletores dos novos elementos do Dashboard ---
+    // --- Seletores dos elementos do Dashboard ---
     const loader = document.getElementById('loader');
+    const welcomeMessageElement = document.getElementById('welcome-message');
     const dinheiroLivreElement = document.getElementById('dinheiro-livre');
     const listaLembretesElement = document.getElementById('lista-lembretes-gastos');
     const bannersMetasPessoais = document.getElementById('banners-metas-pessoais');
+    const bannersMetasGrupo = document.getElementById('banners-metas-grupo');
     const logoutButton = document.getElementById('logout-btn');
 
     const carregarDashboard = async () => {
@@ -25,16 +27,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 return response.json();
             };
 
-            const [rendas, gastosFixos, metasPessoais, depositos, contribuicoes, pagamentos] = await Promise.all([
-                buscarDados('rendas'), buscarDados('gastos-fixos'), buscarDados('metas-pessoais'),
-                buscarDados('depositos-meta'), buscarDados('minhas-contribuicoes'),
-                buscarDados('pagamentos-gastos-fixos')
+            // A ORDEM CORRIGIDA:
+            const [rendas, gastosFixos, metasPessoais, metasGrupo, depositos, contribuicoes, pagamentos] = await Promise.all([
+                buscarDados('rendas'),
+                buscarDados('gastos-fixos'),
+                buscarDados('metas-pessoais'),
+                buscarDados('minhas-metas-grupo'), // 4º item
+                buscarDados('depositos-meta'),     // 5º item
+                buscarDados('minhas-contribuicoes'), // 6º item
+                buscarDados('pagamentos-gastos-fixos') // 7º item
             ]);
-
-            // --- Cálculo do Dinheiro Livre (sem mudanças) ---
+            
+            // --- Cálculo do Dinheiro Livre ---
             const hoje = new Date();
             const mesAtual = hoje.getMonth();
-            const anoAtual = hoje.getFullYear();
             const totalRendas = rendas.reduce((soma, r) => soma + parseFloat(r.valor), 0);
             const pagamentosDoMes = pagamentos.filter(p => new Date(p.data_pagamento).getMonth() === mesAtual);
             const totalPagamentosMes = pagamentosDoMes.reduce((soma, p) => soma + parseFloat(p.valor_pagamento), 0);
@@ -42,45 +48,63 @@ document.addEventListener('DOMContentLoaded', () => {
             const totalContribuicoesMes = contribuicoes.filter(c => new Date(c.data).getMonth() === mesAtual).reduce((soma, c) => soma + parseFloat(c.valor_contribuicao), 0);
             const dinheiroLivre = totalRendas - totalPagamentosMes - totalDepositosMes - totalContribuicoesMes;
             dinheiroLivreElement.textContent = `R$ ${dinheiroLivre.toFixed(2)}`;
+            welcomeMessageElement.textContent = 'Olá! Bem-vindo(a).';
+
 
             // --- Renderizar Lembretes de Gastos Fixos ---
             listaLembretesElement.innerHTML = '';
             const idsGastosPagos = pagamentosDoMes.map(p => p.gasto_fixo);
             const gastosNaoPagos = gastosFixos.filter(g => !idsGastosPagos.includes(g.id));
-            gastosNaoPagos.sort((a, b) => new Date(a.data_vencimento) - new Date(b.data_vencimento));
-
             if (gastosNaoPagos.length === 0) {
                 listaLembretesElement.innerHTML = '<li>Todas as contas fixas foram pagas este mês! 🎉</li>';
             } else {
-                gastosNaoPagos.slice(0, 3).forEach(gasto => {
-                    const item = document.createElement('li');
-                    const dataFormatada = new Date(gasto.data_vencimento + 'T00:00:00').toLocaleDateString('pt-BR');
-                    item.innerHTML = `<span>${gasto.descricao} (Vence em ${dataFormatada})</span> <strong>R$ ${gasto.valor}</strong>`;
-                    listaLembretesElement.appendChild(item);
-                });
+                gastosNaoPagos
+                    .sort((a, b) => new Date(a.data_vencimento) - new Date(b.data_vencimento))
+                    .slice(0, 3)
+                    .forEach(gasto => {
+                        const item = document.createElement('li');
+                        const dataFormatada = new Date(gasto.data_vencimento + 'T00:00:00').toLocaleDateString('pt-BR');
+                        item.innerHTML = `<span>${gasto.descricao} (Vence em ${dataFormatada})</span> <strong>R$ ${gasto.valor}</strong>`;
+                        listaLembretesElement.appendChild(item);
+                    });
             }
 
             // --- Renderizar Banners de Metas Pessoais ---
             bannersMetasPessoais.innerHTML = '';
-            if (metasPessoais.length === 0) {
-                bannersMetasPessoais.innerHTML = '<p>Nenhuma meta de poupança criada. Crie uma na tela de Metas!</p>';
-            } else {
-                metasPessoais.slice(0, 2).forEach(meta => { // Mostra no máximo 2 banners
+            if (metasPessoais.length > 0) {
+                metasPessoais.slice(0, 2).forEach(meta => {
                     const progresso = (parseFloat(meta.valor_atual) / parseFloat(meta.valor_meta)) * 100;
                     const banner = document.createElement('div');
                     banner.className = 'meta-banner';
                     banner.innerHTML = `
                         <p><a href="meta_detalhe.html?id=${meta.id}"><strong>${meta.nome}</strong></a></p>
-                        <div class="progress-bar-container">
-                            <div class="progress-bar" style="width: ${progresso > 100 ? 100 : progresso.toFixed(1)}%;"></div>
-                        </div>
+                        <div class="progress-bar-container"><div class="progress-bar" style="width: ${progresso > 100 ? 100 : progresso.toFixed(1)}%;"></div></div>
                         <p>R$ ${parseFloat(meta.valor_atual).toFixed(2)} / R$ ${parseFloat(meta.valor_meta).toFixed(2)}</p>
                     `;
                     bannersMetasPessoais.appendChild(banner);
                 });
             }
+
+            // --- Renderizar Banners de Metas de Grupo ---
+            bannersMetasGrupo.innerHTML = '';
+            if (metasGrupo.length > 0) {
+                bannersMetasGrupo.innerHTML = '<p style="font-weight: bold; margin-top: 1rem; color: var(--cor-texto-claro);">Metas em Grupo:</p>';
+                metasGrupo.slice(0, 2).forEach(meta => {
+                    const progresso = (parseFloat(meta.valor_atual) / parseFloat(meta.valor_meta)) * 100;
+                    const banner = document.createElement('div');
+                    banner.className = 'meta-banner';
+                    banner.innerHTML = `
+                        <p><a href="meta_grupo_detalhe.html?grupoId=${meta.grupo}&metaId=${meta.id}"><strong>${meta.nome} (Grupo)</strong></a></p>
+                        <div class="progress-bar-container"><div class="progress-bar" style="width: ${progresso > 100 ? 100 : progresso.toFixed(1)}%;"></div></div>
+                        <p>R$ ${parseFloat(meta.valor_atual).toFixed(2)} / R$ ${parseFloat(meta.valor_meta).toFixed(2)}</p>
+                    `;
+                    bannersMetasGrupo.appendChild(banner);
+                });
+            }
+
         } catch (error) {
             console.error('Erro ao carregar dashboard:', error);
+            showErrorToast("Sua sessão pode ter expirado. Por favor, faça o login novamente.");
         } finally {
             loader.style.display = 'none';
         }

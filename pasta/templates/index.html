@@ -17,9 +17,12 @@
             <input type="password" id="login-password" placeholder="Senha" required>
             <button type="submit">Entrar</button>
         </form>
-        <div class="login-container">
-            <p class="auth-link">Não tem uma conta? <a href="register.html">Cadastre-se</a></p>
-        </div>
+        
+        <p class="auth-link">
+            <a href="{% url 'password_reset' %}">Esqueceu a senha?</a>
+        </p>
+        <p class="auth-link">Não tem uma conta? <a href="{% url 'register-page' %}">Cadastre-se</a></p>
+
     </div>
     
     <script src="{% static 'js/script.js' %}"></script>

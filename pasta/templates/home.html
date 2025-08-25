@@ -16,23 +16,24 @@
 
     <main class="container">
         <h1 id="welcome-message">Carregando...</h1>
-        <button id="logout-btn" class="button-logout">Sair (Logout)</button>
-
         <div class="card card-principal">
             <h2>Dinheiro Livre este Mês</h2>
             <p id="dinheiro-livre">R$ 0,00</p>
             <a href="relatorio.html" class="link-discreto">Ver extrato completo &rarr;</a>
         </div>
 
-        <div id="lembretes-container" class="card">
+        <div id="lembretes-container" class="card card-gastos">
             <h2>Lembretes de Próximos Gastos</h2>
             <ul id="lista-lembretes-gastos" class="lista-resumo">
                 </ul>
         </div>
 
-        <div id="metas-container" class="card">
+        <div id="metas-container" class="card card-metas">
             <h2>Progresso das Metas</h2>
+            
             <div id="banners-metas-pessoais"></div>
+            
+            <div id="banners-metas-grupo"></div>
         </div>
 
     </main>
@@ -40,11 +41,22 @@
     <script src="{% static 'js/home.js' %}"></script>
 
     <nav class="bottom-nav">
-        <a href="home.html" class="nav-link active"><i class="fas fa-home"></i><span class="nav-text">Dashboard</span></a>
-        <a href="rendas.html" class="nav-link"><i class="fas fa-hand-holding-usd"></i><span class="nav-text">Rendas</span></a>
-        <a href="gastos.html" class="nav-link"><i class="fas fa-wallet"></i><span class="nav-text">Gastos</span></a>
-        <a href="metas.html" class="nav-link"><i class="fas fa-bullseye"></i><span class="nav-text">Metas</span></a>
-        <a href="grupos.html" class="nav-link"><i class="fas fa-users"></i><span class="nav-text">Grupos</span></a>
-    </nav>
+        <a href="home.html" class="nav-link">
+            <i class="fas fa-home"></i>
+            <span class="nav-text">Dashboard</span>
+        </a>
+        <a href="calendario.html" class="nav-link">
+            <i class="fas fa-calendar-alt"></i>
+            <span class="nav-text">Calendário</span>
+        </a>
+        <a href="estatisticas.html" class="nav-link">
+            <i class="fas fa-chart-pie"></i>
+            <span class="nav-text">Gráficos</span>
+        </a>
+        <a href="menu.html" class="nav-link">
+            <i class="fas fa-bars"></i>
+            <span class="nav-text">Menu</span>
+        </a>
+    </nav> 
 </body>
 </html>

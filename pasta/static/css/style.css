@@ -1,408 +1,324 @@
-/* --- ESTILOS GERAIS E MOBILE-FIRST --- */
+/* ==========================================================================
+   PARTE 1: FUNDAÇÃO (Reset, Variáveis de Cor e Estilos Globais)
+   ========================================================================== */
 
-/* Zera margens e paddings padrões */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+:root {
+    --cor-primaria: #81b8ff;       /* Azul Neon Pastel */
+    --cor-sucesso: #8cff9a;        /* Verde Neon Pastel */
+    --cor-perigo: #ff6ac1;         /* Rosa Neon Pastel */
+    --cor-aviso: #f9f871;          /* Amarelo Neon Pastel */
+    --cor-fundo: #121212;          /* Fundo principal (preto suave) */
+    --cor-card: #1e1e1e;           /* Cor dos cards (cinza escuro) */
+    --cor-texto: #e0e0e0;          /* Texto principal (cinza claro) */
+    --cor-texto-claro: #8e8e93;    /* Texto secundário (cinza médio) */
+    --cor-borda: #333333;          /* Cor das bordas e divisórias */
+    --sombra-card: 0 4px 12px rgba(0, 0, 0, 0.4);
 }
 
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
 body {
-    font-family: sans-serif;
-    background-color: #f0f2f5;
-    /* Usa flexbox para centralizar o container do login na tela */
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--cor-fundo);
+    color: var(--cor-texto);
+    line-height: 1.6;
+    padding-bottom: 0; 
+}
+
+/* NOVO: Aplica a centralização APENAS nas páginas que contêm o .login-container */
+body:has(.login-container) {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh; /* Ocupa no mínimo 100% da altura da tela */
+    min-height: 100vh;
 }
 
-.login-container {
-    background-color: white;
-    padding: 2rem;
-    width: 90%; /* Ocupa 90% da tela no celular, com pequenas margens */
-    max-width: 400px; /* Mas nunca passará de 400px de largura */
-    border-radius: 8px;
+/* Para o dashboard e outras páginas, mantém o padding para a navbar */
+body:not(:has(.login-container)) {
+    padding-bottom: 80px;
 }
 
-.login-form {
-    display: flex;
-    flex-direction: column; /* Itens empilhados na vertical por padrão */
-    gap: 1rem; /* Espaço entre os itens do formulário */
+
+main.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 1.5rem;
 }
 
-h2 {
-    text-align: center;
-    margin-bottom: 1.5rem;
-}
+h1, h2 { margin-bottom: 1rem; }
+h1 { font-size: 1.8rem; }
+h2 { font-size: 1.3rem; color: var(--cor-primaria); border-bottom: 2px solid var(--cor-borda); padding-bottom: 0.5rem; margin-top: 2rem; }
+hr { border: none; border-top: 1px solid var(--cor-borda); margin: 2rem 0; }
+a { color: var(--cor-primaria); text-decoration: none; }
+a:hover { text-decoration: underline; }
 
-input, button {
-    width: 100%;
-    padding: 0.8rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 1rem;
-}
-
-button {
-    background-color: #007bff;
-    color: white;
+hr {
     border: none;
-    cursor: pointer;
+    border-top: 1px solid var(--cor-borda);
+    margin: 2rem 0;
 }
 
 
-/* --- ESTILOS PARA TELAS MAIORES (DESKTOPS) --- */
-@media (min-width: 768px) {
-    .login-container {
-        /* Em telas grandes, adiciona uma sombra para dar profundidade */
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    }
-}
+/* ==========================================================================
+   PARTE 2: COMPONENTES (Botões, Formulários, Cards, etc.)
+   ========================================================================== */
 
-/* Adicione no final de style.css */
-.form-inline {
-    display: flex;
-    gap: 0.5rem;
-    margin-bottom: 1.5rem;
-}
-
-.form-inline input {
-    flex-grow: 1; /* Faz o input ocupar o espaço disponível */
-}
-
-/* Adicione no final de style.css */
+/* --- Cards --- */
 .card {
-    background-color: #e9ecef;
-    border-radius: 8px;
+    background-color: var(--cor-card);
+    border-radius: 12px;
     padding: 1.5rem;
     margin-bottom: 1.5rem;
-    text-align: center;
+    box-shadow: var(--sombra-card);
+    /* A MÁGICA ESTÁ AQUI: Uma borda no topo para o acento de cor */
+    border-top: 4px solid var(--cor-borda); 
+    transition: border-top-color 0.3s;
 }
+
+/* Agora, criamos as variações de cor */
+
+/* Card Principal (Dinheiro Livre) usa a cor de sucesso */
+.card.card-principal {
+    text-align: center;
+    /* Garante que a bord-top verde sempre apareça */
+    border-top-color: var(--cor-sucesso); 
+}
+
 .card-principal h2 {
     margin-bottom: 0.5rem;
     font-size: 1.2rem;
-    color: #495057;
+    color: var(--cor-texto-claro);
+    border-bottom: none;
 }
-.card-principal p {
+
+/* A CORREÇÃO ESTÁ AQUI: Usamos o ID para garantir a prioridade */
+#dinheiro-livre {
     font-size: 2.5rem;
     font-weight: bold;
-    color: #2a9d8f;
+    color: var(--cor-sucesso); /* Força a cor de sucesso (verde neon) */
 }
 
-/* Adicione no final de style.css */
-.progress-bar-container {
+/* Card para seções de Metas */
+.card.card-metas {
+    border-top-color: var(--cor-primaria); /* Azul Neon Pastel */
+}
+
+/* Card para seções de Grupos */
+.card.card-grupos {
+    border-top-color: var(--cor-aviso); /* Amarelo Neon Pastel */
+}
+
+/* Card para seções de Alertas ou Gastos */
+.card.card-gastos {
+    border-top-color: var(--cor-perigo); /* Rosa Neon Pastel */
+}
+
+.form-inline { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1rem; align-items: flex-end; }
+.form-group { display: flex; flex-direction: column; flex-grow: 1; }
+
+input, select {
     width: 100%;
-    background-color: #e9ecef;
+    padding: 0.8rem;
+    border: 1px solid #444;
     border-radius: 4px;
-    margin: 1rem 0;
-}
-.progress-bar {
-    height: 20px;
-    background-color: #2a9d8f;
-    width: 0%; /* O JavaScript vai controlar isso */
-    border-radius: 4px;
-    transition: width 0.5s ease-in-out;
+    font-size: 1rem;
+    background-color: #333;
+    color: var(--cor-texto);
 }
 
-/* Adicione no final do style.css */
-.button-link {
-    display: inline-block;
+button[type="submit"], .button-link, .button-logout {
+    background-color: var(--cor-primaria);
+    color: var(--cor-texto);
+    font-weight: bold;
+    border: none;
+    border-radius: 4px;
     padding: 0.8rem 1.5rem;
-    background-color: #6c757d; /* Uma cor secundária */
-    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
     text-decoration: none;
-    border-radius: 4px;
     text-align: center;
-    margin-bottom: 1.5rem;
+}
+button[type="submit"]:hover, .button-link:hover, .button-logout:hover {
+    background-color: var(--cor-primaria-escura);
+    color: var(--cor-texto);
 }
 
-/* Adicione no final de style.css */
-
-.meta-card {
-    background-color: #fff;
-    border: 1px solid #dee2e6;
-    border-radius: 8px;
-    padding: 1.5rem;
-    margin-top: 1.5rem;
+.button-logout {
+    background-color: var(--cor-perigo);
+    width: 100%;
+}
+.button-logout:hover {
+    background-color: #d63384;
 }
 
-.meta-card h3 {
-    margin-top: 0;
-}
+ul { list-style-type: none; padding-left: 0; width: 100%; }
+ul li { display: flex; justify-content: space-between; align-items: center; padding: 0.75rem; border-bottom: 1px solid var(--cor-borda); }
+ul li:last-child { border-bottom: none; }
+ul li a { flex-grow: 1; }
 
-.contribuicoes-lista {
-    list-style-type: none;
-    padding-left: 0;
-    font-size: 0.9rem;
-    color: #6c757d;
-}
-
-/* Adicione no final de style.css */
-
-/* Estilo para a lista ter mais espaço para o botão */
-#lista-gastos-fixos li, #lista-despesas li {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 0.5rem;
-}
-
-.delete-btn {
-    background-color: #dc3545; /* Vermelho */
-    color: white;
-    border: none;
-    border-radius: 4px;
-    padding: 0.2rem 0.6rem;
-    font-weight: bold;
-    cursor: pointer;
-    font-size: 0.9rem;
-    margin-left: 1rem;
-}
-
-.delete-btn:hover {
-    background-color: #c82333; /* Vermelho mais escuro */
-}
-
-/* Adicione no final de style.css */
-
-.gasto-pago {
-    text-decoration: line-through; /* Tacha o texto do item pago */
-    color: #6c757d; /* Deixa o texto cinza */
-}
-
-.gasto-pago .status-pago {
-    color: #28a745; /* Verde */
-    font-weight: bold;
-}
-
-.pay-btn {
-    background-color: #007bff; /* Azul */
-    color: white;
-    border: none;
-    border-radius: 4px;
-    padding: 0.2rem 0.6rem;
-    cursor: pointer;
-    font-size: 0.9rem;
-    margin-left: 1rem;
-}
-
-.pay-btn:hover {
-    background-color: #0069d9; /* Azul mais escuro */
-}
-
+/* --- Botões de Ação nas Listas --- */
 .actions-container {
     display: flex;
     align-items: center;
-    gap: 0.5rem; /* Cria um espaço entre os botões */
+    gap: 0.5rem;
 }
 
-/* Adicione no final de style.css */
-
-.button-logout {
-    display: block; /* Ocupa a própria linha */
-    width: 100%;    /* Ocupa toda a largura */
-    padding: 0.8rem;
-    margin-bottom: 1.5rem;
-    background-color: #dc3545; /* Vermelho, cor de "sair" */
-    color: white;
-    border: none;
-    border-radius: 4px;
-    font-size: 1rem;
+.edit-btn, .pay-btn, .delete-btn {
+    padding: 0.2rem 0.6rem;
     font-weight: bold;
     cursor: pointer;
-}
-
-.button-logout:hover {
-    background-color: #c82333;
-}
-
-/* Estilos para o Modal de Edição */
-.modal-overlay {
-    position: fixed; /* Fica por cima de todo o conteúdo */
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.6); /* Fundo semi-transparente */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-}
-
-.modal-content {
-    background-color: white;
-    padding: 2rem;
-    border-radius: 8px;
-    width: 90%;
-    max-width: 500px;
-}
-
-.modal-content h2 {
-    margin-top: 0;
-    margin-bottom: 1.5rem;
-}
-
-#form-editar-gasto-fixo label {
-    display: block;
-    margin-bottom: 0.5rem;
-}
-
-#form-editar-gasto-fixo input {
-    margin-bottom: 1rem;
-}
-
-.modal-actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: 1rem;
-    margin-top: 1.5rem;
-}
-
-/* Estilo para o botão de editar na lista */
-.edit-btn {
-    background-color: #ffc107; /* Amarelo */
-    color: #212529;
+    font-size: 0.9rem;
     border: none;
-    /* ... (copie outros estilos de botão se quiser) */
-}
-
-/* Estilos para o Indicador de Carregamento (Loader) */
-.loader-overlay {
-    position: fixed; /* Fica por cima de tudo */
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(255, 255, 255, 0.8); /* Fundo branco semi-transparente */
-    display: flex; /* Usado para centralizar o spinner */
-    justify-content: center;
-    align-items: center;
-    z-index: 2000; /* Garante que fique na frente do modal */
-}
-
-.spinner {
-    border: 8px solid #f3f3f3; /* Cinza claro */
-    border-top: 8px solid #3498db; /* Azul */
-    border-radius: 50%;
-    width: 60px;
-    height: 60px;
-    animation: spin 1s linear infinite;
-}
-
-/* Animação de rotação */
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-/* Adicione no final de style.css */
-
-#lista-membros {
-    list-style-type: none;
-    padding-left: 0;
-    margin-bottom: 1.5rem;
-}
-
-#lista-membros li {
-    background-color: #f8f9fa;
-    padding: 0.75rem;
     border-radius: 4px;
-    margin-bottom: 0.5rem;
-}
-
-.criador-tag {
-    font-weight: bold;
-    color: #007bff;
-    margin-left: 0.5rem;
-    font-size: 0.8rem;
-}
-
-
-/* Adicione no final de style.css */
-
-/* Garante que o conteúdo não fique escondido atrás da nova barra */
-body {
-    padding-bottom: 80px; /* Espaço para a barra inferior */
-}
-
-.bottom-nav {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 65px;
-    background-color: #ffffff;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
-    z-index: 100;
-}
-
-.nav-link {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-decoration: none;
-    color: #8e8e93;
-    flex-grow: 1; /* Garante que os links ocupem o espaço igualmente */
-}
-
-.nav-link i {
-    font-size: 1.5rem;
-    margin-bottom: 4px;
-}
-
-.nav-link .nav-text {
-    font-size: 0.7rem;
-}
-
-/* Estilo para o Botão de Ação Flutuante (FAB) */
-.nav-link.fab {
     color: white;
-    background-color: #007bff;
-    width: 60px;
-    height: 60px;
-    border-radius: 50%; /* Deixa o botão redondo */
-    position: relative;
-    bottom: 20px; /* Empurra o botão para cima */
-    box-shadow: 0 -1px 8px rgba(0,0,0,0.2);
-    border: 3px solid white;
-    flex-grow: 0; /* Impede que ele estique */
 }
 
-.nav-link.fab i {
-    font-size: 1.8rem;
-    margin: 0;
+.edit-btn { background-color: var(--cor-aviso); color: var(--cor-texto); }
+.pay-btn { background-color: var(--cor-sucesso); }
+.delete-btn { background-color: var(--cor-perigo); }
+
+
+/* ==========================================================================
+   PARTE 3: BARRA DE NAVEGAÇÃO INFERIOR
+   ========================================================================== */
+
+/* ==========================================================================
+   PARTE 3: CORREÇÕES ESPECÍFICAS (Suas Observações)
+   ========================================================================== */
+
+/* --- Login e Cadastro --- */
+/* Aplica o estilo de card ao container de login/cadastro */
+.login-container {
+    background-color: var(--cor-card);
+    padding: 2.5rem;
+    border-radius: 12px;
+    box-shadow: var(--sombra-card);
+    width: 90%;
+    max-width: 400px;
+    margin: 5vh auto; /* Centraliza verticalmente de forma aproximada */
+}
+.login-container h2 {
+    border-bottom: none;
+    text-align: center;
 }
 
-/* Estilos para Validação de Formulário */
-.form-group {
+* /*NOVO: Adiciona espaçamento entre os itens do formulário */
+.login-form, #register-form {
+    display: flex;
+    flex-direction: column; /* Empilha os itens */
+    gap: 1rem; /* Adiciona 1rem (aprox. 16px) de espaço entre cada item */
+}
+
+.auth-link {
+    text-align: center;
+    margin-top: 1.5rem;
+    font-size: 0.9rem;
+    color: var(--cor-texto-claro);
+}
+
+/* --- Menu --- */
+/* Garante que o container do menu também seja um card */
+.menu-container {
+    background-color: var(--cor-card);
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: var(--sombra-card);
+}
+.menu-list { 
+    margin: 0 0 2rem 0; 
     display: flex;
     flex-direction: column;
-    flex-grow: 1; /* Faz os grupos de formulário ocuparem espaço */
+    gap: 1rem;
+}
+.menu-list li {
+    background-color: var(--cor-fundo);
+    border-radius: 8px;
+    border-bottom: none;
+    margin-bottom: 0;
+    transition: background-color 0.2s;
+}
+.menu-list li:hover {
+    background-color: #333;
+}
+.menu-list a { 
+    display: block;
+    padding: 1rem;
+    font-size: 1.1rem; 
+    font-weight: bold; 
+}
+.menu-list a i { 
+    margin-right: 15px; 
+    color: var(--cor-primaria); 
+    width: 20px; 
+    text-align: center;
 }
 
-.error-message {
-    color: #dc3545; /* Vermelho */
-    font-size: 0.8rem;
-    height: 1rem; /* Garante que o layout não "pule" quando a mensagem aparece */
-    margin-top: 2px;
+/* --- Extrato --- */
+/* Corrigindo o cabeçalho branco da tabela */
+.extrato-table th {
+    background-color: #343a40; /* Cinza um pouco mais escuro para destaque */
+    color: var(--cor-texto);
 }
 
-/* Classe que será adicionada pelo JavaScript em caso de erro */
-.input-invalid {
-    border-color: #dc3545;
+/* --- Calendário --- */
+/* Força as cores do nosso tema no FullCalendar */
+.fc .fc-button-primary {
+    background-color: var(--cor-primaria) !important;
+    border-color: var(--cor-primaria) !important;
+    color: var(--cor-texto) !important;
+    text-transform: capitalize; /* Deixa os nomes dos botões mais bonitos */
+}
+.fc .fc-button-primary:hover {
+    background-color: var(--cor-primaria-escura) !important;
+}
+.fc-daygrid-event {
+    background-color: var(--cor-perigo) !important;
+    border-color: var(--cor-perigo) !important;
+}
+.fc-event-title {
+    font-weight: bold;
+}
+/* Melhora a responsividade dos botões do calendário em telas pequenas */
+
+/* Aplica estas regras APENAS se a largura da tela for 576px ou menor */
+@media (max-width: 576px) {
+    /*
+    Passo 1: Forçamos o cabeçalho a ser uma coluna vertical.
+    O '!important' garante que nossa regra vença a da biblioteca.
+    */
+    .fc .fc-header-toolbar.fc-toolbar {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 15px !important; /* Aumenta o espaço entre as linhas */
+    }
+
+    /*
+    Passo 2: Garantimos que cada "pedaço" (esquerda, centro, direita)
+    ocupe a largura inteira para não ficarem espremidos.
+    */
+    .fc .fc-toolbar-chunk {
+        display: flex;
+        justify-content: center; /* Centraliza os botões dentro do seu "pedaço" */
+        width: 100%;
+    }
+
+    /* Passo 3: Se o título ainda ficar descentralizado, forçamos aqui.
+    */
+    .fc .fc-toolbar-title {
+        font-size: 1.2rem;
+    }
 }
 
 
-/* Estilos para o novo Dashboard */
+/* ==========================================================================
+   PARTE 4: BARRA DE NAVEGAÇÃO, MODAIS E OUTROS
+   ========================================================================== */
+   
+/* Para o link de 'Ver extrato' no dashboard */
 .link-discreto {
     font-size: 0.9rem;
-    color: #6c757d;
+    color: var(--cor-texto-claro);
     text-decoration: none;
     margin-top: 1rem;
     display: inline-block;
@@ -411,42 +327,140 @@ body {
     text-decoration: underline;
 }
 
+/* Para as listas de resumo do novo dashboard */
 .lista-resumo {
     list-style-type: none;
     padding-left: 0;
     width: 100%;
 }
-
 .lista-resumo li {
     display: flex;
     justify-content: space-between;
     padding: 0.5rem 0;
-    border-bottom: 1px solid #e9ecef;
+    border-bottom: 1px solid var(--cor-borda);
+    flex-wrap: wrap;
+    gap: 10px;
 }
-.lista-resumo li:last-child {
-    border-bottom: none;
-}
+.lista-resumo li:last-child { border-bottom: none; }
 
-/* Estilos para os Banners de Meta */
-.meta-banner {
+/* Banners de Meta no novo dashboard */
+.meta-banner { margin-bottom: 1rem; }
+.meta-banner p { margin: 0.25rem 0; font-size: 0.9rem; }
+.meta-banner a { font-weight: bold; }
+
+/* Barra de Navegação Inferior */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 65px;
+    background-color: var(--cor-card);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    box-shadow: 0 -2px 5px rgba(0,0,0,0.2);
+    z-index: 100;
+}
+.nav-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: var(--cor-texto-claro);
+    flex-grow: 1;
+    height: 100%;
+}
+.nav-link i { font-size: 1.5rem; margin-bottom: 4px; }
+.nav-link .nav-text { font-size: 0.7rem; }
+.nav-link.active { color: var(--cor-primaria); }
+
+.nav-link.fab {
+    color: var(--cor-fundo);
+    background-color: var(--cor-primaria);
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    position: relative;
+    bottom: 20px;
+    box-shadow: 0 -1px 8px rgba(0,0,0,0.3);
+    border: 3px solid var(--cor-card);
+    flex-grow: 0;
+    transition: background-color 0.2s;
+}
+.nav-link.fab:hover { background-color: var(--cor-primaria-escura); }
+.nav-link.fab i { font-size: 1.8rem; margin: 0; }
+.nav-link.fab.active { background-color: var(--cor-primaria); }
+
+/* Estados e Modificadores que já tínhamos */
+.gasto-pago { text-decoration: line-through; color: var(--cor-texto-claro); }
+.status-pago { color: var(--cor-sucesso); font-weight: bold; }
+
+/* Modal de Edição */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    padding: 1rem;
+}
+.modal-content {
+    background-color: var(--cor-card);
+    padding: 2rem;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 500px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+.modal-content h2 { border-bottom: none; }
+.modal-content label { display: block; margin-bottom: 0.5rem; font-weight: bold; }
+.modal-content input, .modal-content select { margin-bottom: 1rem; }
+.modal-actions { display: flex; justify-content: flex-end; gap: 1rem; margin-top: 1.5rem; }
+.modal-actions button[type="button"] { background-color: var(--cor-texto-claro); }
+
+
+
+
+
+a.meta-card-link {
+    display: block;
+    color: inherit; /* Herda a cor do texto normal */
+    text-decoration: none;
     margin-bottom: 1rem;
 }
-.meta-banner p {
-    margin: 0.25rem 0;
-    font-size: 0.9rem;
+a.meta-card-link .card { /* Estiliza o card dentro do link */
+     transition: transform 0.2s;
+}
+a.meta-card-link:hover .card {
+     transform: translateY(-5px); /* Efeito de "levantar" ao passar o mouse */
 }
 
-/* Adicione no final de style.css */
-.auth-link {
-    text-align: center;
-    margin-top: 1.5rem;
-    font-size: 0.9rem;
-    color: #6c757d;
+
+/* Em style.css */
+
+/* Estilos para a Barra de Progresso Neon Pastel */
+.progress-bar-container {
+    width: 100%;
+    background-color: #333; /* Fundo escuro para a barra */
+    border-radius: 8px;
+    margin: 0.75rem 0;
+    height: 20px;
+    overflow: hidden; /* Garante que a barra interna não ultrapasse as bordas */
 }
-.auth-link a {
-    color: #007bff;
-    text-decoration: none;
-}
-.auth-link a:hover {
-    text-decoration: underline;
+.progress-bar {
+    height: 100%;
+    /* A COR NEON PASTEL ESTÁ AQUI (usando nossa variável de sucesso) */
+    background-color: var(--cor-sucesso);
+    width: 0%; /* O JavaScript vai controlar a largura */
+    border-radius: 8px;
+    transition: width 0.5s ease-in-out; /* Animação suave */
+    /* Efeito de brilho sutil */
+    box-shadow: 0 0 10px var(--cor-sucesso);
 }
