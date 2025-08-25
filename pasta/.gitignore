@@ -21,3 +21,5 @@ Thumbs.db
 # Arquivos do Editor (VS Code)
 .vscode/
 .env
+
+public/
