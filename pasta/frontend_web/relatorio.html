@@ -1,4 +1,4 @@
-{% load static %}
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="/css/style.css">
     <style>
         /* Estilos específicos da tabela de extrato */
         .extrato-table { width: 100%; border-collapse: collapse; margin-top: 1.5rem; }
@@ -33,7 +33,7 @@
             <tbody id="corpo-tabela-extrato"></tbody>
         </table>
     </main>
-    <script src="{% static 'js/relatorio.js' %}"></script>
+    <script src="/js/relatorio.js"></script>
 
     <nav class="bottom-nav">
         <a href="home.html" class="nav-link">

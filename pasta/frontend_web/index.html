@@ -1,11 +1,11 @@
-{% load static %}
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - App Finanças</title>
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 </head>
@@ -19,12 +19,12 @@
         </form>
         
         <p class="auth-link">
-            <a href="{% url 'password_reset' %}">Esqueceu a senha?</a>
+            <a href="/accounts/password_reset/">Esqueceu a senha?</a>
         </p>
-        <p class="auth-link">Não tem uma conta? <a href="{% url 'register-page' %}">Cadastre-se</a></p>
+        <p class="auth-link">Não tem uma conta? <a href="/register.html">Cadastre-se</a></p>
 
     </div>
     
-    <script src="{% static 'js/script.js' %}"></script>
+    <script src="/js/script.js"></script>
 </body>
 </html>
