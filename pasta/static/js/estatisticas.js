@@ -71,7 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Função Principal para Carregar os Dados ---
     const carregarEstatisticas = async () => {
         try {
-            const response = await fetch(`http://127.0.0.1:8000/api/chart-data/`, { headers });
+            const response = await fetch(`https://app-financas-matheus.onrender.com/api/chart-data/`, { headers });
             if (!response.ok) throw new Error(`Falha ao buscar dados do gráfico`);
             const dadosDoGrafico = await response.json();
             renderizarGrafico(dadosDoGrafico);

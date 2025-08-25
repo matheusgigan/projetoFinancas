@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const carregarRendas = async () => {
         try {
-            const response = await fetch('http://127.0.0.1:8000/api/rendas/', { headers: { 'Authorization': `Token ${token}` } });
+            const response = await fetch('https://app-financas-matheus.onrender.com/api/rendas/', { headers: { 'Authorization': `Token ${token}` } });
             const rendas = await response.json();
 
             listaRendasElement.innerHTML = '';
@@ -89,7 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Envio para a API
             try {
-                const response = await fetch('http://127.0.0.1:8000/api/rendas/', {
+                const response = await fetch('https://app-financas-matheus.onrender.com/api/rendas/', {
                     method: 'POST',
                     headers: headers, // 'headers' deve estar definido no escopo superior
                     body: JSON.stringify({ descricao, valor, tipo })
@@ -115,7 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (target.classList.contains('edit-renda-btn')) {
                 try {
-                    const response = await fetch(`http://127.0.0.1:8000/api/rendas/${rendaId}/`, { headers: { 'Authorization': `Token ${token}` } });
+                    const response = await fetch(`https://app-financas-matheus.onrender.com/api/rendas/${rendaId}/`, { headers: { 'Authorization': `Token ${token}` } });
                     if (!response.ok) throw new Error('Falha ao buscar dados da renda.');
                     const renda = await response.json();
                     editRendaId.value = renda.id;
@@ -129,7 +129,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (target.classList.contains('delete-renda-btn')) {
                 if (!confirm('Tem certeza que deseja deletar esta renda?')) return;
                 try {
-                    const response = await fetch(`http://127.0.0.1:8000/api/rendas/${rendaId}/`, { method: 'DELETE', headers: { 'Authorization': `Token ${token}` } });
+                    const response = await fetch(`https://app-financas-matheus.onrender.com/api/rendas/${rendaId}/`, { method: 'DELETE', headers: { 'Authorization': `Token ${token}` } });
                     if (response.status !== 204) throw new Error('Falha ao deletar a renda.');
                     showSuccessToast("Renda deletada com sucesso.");
                     carregarDashboard();
@@ -144,7 +144,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const rendaId = editRendaId.value;
             const dados = { descricao: editDescricaoRenda.value, valor: editValorRenda.value, tipo: editTipoRenda.value };
             try {
-                const response = await fetch(`http://127.0.0.1:8000/api/rendas/${rendaId}/`, { method: 'PATCH', headers, body: JSON.stringify(dados) });
+                const response = await fetch(`https://app-financas-matheus.onrender.com/api/rendas/${rendaId}/`, { method: 'PATCH', headers, body: JSON.stringify(dados) });
                 if (!response.ok) throw new Error('Não foi possível salvar as alterações.');
                 editRendaModal.style.display = 'none';
                 showSuccessToast("Renda atualizada com sucesso!");

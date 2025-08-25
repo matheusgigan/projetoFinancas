@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Função para buscar e atualizar os dados da meta na tela ---
     const carregarDetalhesMeta = async () => {
         try {
-            const response = await fetch(`http://127.0.0.1:8000/api/grupos/${grupoId}/metas/${metaId}/`, { headers });
+            const response = await fetch(`https://app-financas-matheus.onrender.com/api/grupos/${grupoId}/metas/${metaId}/`, { headers });
             if (!response.ok) throw new Error('Falha ao buscar detalhes da meta.');
             const meta = await response.json();
             
@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
         try {
-            const response = await fetch(`http://127.0.0.1:8000/api/grupos/${grupoId}/metas/${metaId}/contribuicoes/`, {
+            const response = await fetch(`https://app-financas-matheus.onrender.com/api/grupos/${grupoId}/metas/${metaId}/contribuicoes/`, {
                 method: 'POST', headers, body: JSON.stringify({ valor: valor })
             });
             if (!response.ok) throw new Error('Falha ao registrar contribuição.');

@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Função Principal para Carregar os Grupos ---
     const carregarGrupos = async () => {
         try {
-            const response = await fetch('http://127.0.0.1:8000/api/grupos/', { headers: { 'Authorization': `Token ${token}` } });
+            const response = await fetch('https://app-financas-matheus.onrender.com/api/grupos/', { headers: { 'Authorization': `Token ${token}` } });
             const grupos = await response.json();
 
             listaGruposElement.innerHTML = '';
@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
             try {
-                await fetch('http://127.0.0.1:8000/api/grupos/', {
+                await fetch('https://app-financas-matheus.onrender.com/api/grupos/', {
                     method: 'POST',
                     headers: headers,
                     body: JSON.stringify({ nome_grupo: nomeGrupo })
@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const grupoId = event.target.dataset.id;
                 if (!confirm('Tem certeza que deseja deletar este grupo?')) return;
                 try {
-                    const response = await fetch(`http://127.0.0.1:8000/api/grupos/${grupoId}/`, {
+                    const response = await fetch(`https://app-financas-matheus.onrender.com/api/grupos/${grupoId}/`, {
                         method: 'DELETE',
                         headers: { 'Authorization': `Token ${token}` }
                     });

@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Função para buscar e atualizar os dados da meta na tela ---
     const atualizarDadosMeta = async () => {
         try {
-            const response = await fetch(`http://127.0.0.1:8000/api/metas-pessoais/${metaId}/`, { headers });
+            const response = await fetch(`https://app-financas-matheus.onrender.com/api/metas-pessoais/${metaId}/`, { headers });
             if (!response.ok) throw new Error('Falha ao buscar meta.');
             const meta = await response.json();
 
@@ -75,7 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         try {
-            const response = await fetch(`http://127.0.0.1:8000/api/metas-pessoais/${metaId}/depositar/`, {
+            const response = await fetch(`https://app-financas-matheus.onrender.com/api/metas-pessoais/${metaId}/depositar/`, {
                 method: 'POST',
                 headers: headers,
                 body: JSON.stringify({ valor: valor })

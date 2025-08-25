@@ -19,8 +19,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const carregarGastos = async () => {
         try {
             const [gastosFixos, pagamentos] = await Promise.all([
-                fetch('http://127.0.0.1:8000/api/gastos-fixos/', { headers: { 'Authorization': `Token ${token}` } }).then(res => res.json()),
-                fetch('http://127.0.0.1:8000/api/pagamentos-gastos-fixos/', { headers: { 'Authorization': `Token ${token}` } }).then(res => res.json())
+                fetch('https://app-financas-matheus.onrender.com/api/gastos-fixos/', { headers: { 'Authorization': `Token ${token}` } }).then(res => res.json()),
+                fetch('https://app-financas-matheus.onrender.com/api/pagamentos-gastos-fixos/', { headers: { 'Authorization': `Token ${token}` } }).then(res => res.json())
             ]);
 
             listaGastosFixosElement.innerHTML = '';
@@ -101,7 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Envio para a API
             try {
-                const response = await fetch('http://127.0.0.1:8000/api/gastos-fixos/', {
+                const response = await fetch('https://app-financas-matheus.onrender.com/api/gastos-fixos/', {
                     method: 'POST',
                     headers: headers, // 'headers' deve estar definido no escopo superior
                     body: JSON.stringify({ 
@@ -131,7 +131,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (target.classList.contains('pay-btn')) {
                 if (!confirm('Tem certeza que deseja marcar esta conta como paga?')) return;
                 try {
-                    const response = await fetch(`http://127.0.0.1:8000/api/pagamentos-gastos-fixos/`, { method: 'POST', headers, body: JSON.stringify({ gasto_fixo_id: gastoId }) });
+                    const response = await fetch(`https://app-financas-matheus.onrender.com/api/pagamentos-gastos-fixos/`, { method: 'POST', headers, body: JSON.stringify({ gasto_fixo_id: gastoId }) });
                     if (!response.ok) {
                         const errorData = await response.json();
                         const errorMessage = (errorData.non_field_errors && errorData.non_field_errors[0]) || 'Falha ao marcar como pago.';
@@ -145,7 +145,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (target.classList.contains('delete-gasto-btn')) {
                 if (!confirm('Tem certeza que deseja deletar este gasto fixo?')) return;
                 try {
-                    const response = await fetch(`http://127.0.0.1:8000/api/gastos-fixos/${gastoId}/`, { method: 'DELETE', headers: { 'Authorization': `Token ${token}` } });
+                    const response = await fetch(`https://app-financas-matheus.onrender.com/api/gastos-fixos/${gastoId}/`, { method: 'DELETE', headers: { 'Authorization': `Token ${token}` } });
                     if (response.status !== 204) throw new Error('Falha ao deletar o gasto fixo.');
                     showSuccessToast("Gasto fixo deletado.");
                     carregarDashboard();
@@ -154,7 +154,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (target.classList.contains('edit-gasto-btn')) {
                 try {
-                    const response = await fetch(`http://127.0.0.1:8000/api/gastos-fixos/${gastoId}/`, { headers: { 'Authorization': `Token ${token}` } });
+                    const response = await fetch(`https://app-financas-matheus.onrender.com/api/gastos-fixos/${gastoId}/`, { headers: { 'Authorization': `Token ${token}` } });
                     if (!response.ok) throw new Error('Falha ao buscar dados do gasto.');
                     const gasto = await response.json();
                     editGastoId.value = gasto.id;
@@ -173,7 +173,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const gastoId = editGastoId.value;
             const dados = { descricao: editDescricao.value, valor: editValor.value, data_vencimento: editData.value };
             try {
-                const response = await fetch(`http://127.0.0.1:8000/api/gastos-fixos/${gastoId}/`, { method: 'PATCH', headers, body: JSON.stringify(dados) });
+                const response = await fetch(`https://app-financas-matheus.onrender.com/api/gastos-fixos/${gastoId}/`, { method: 'PATCH', headers, body: JSON.stringify(dados) });
                 if (!response.ok) throw new Error('Não foi possível salvar as alterações.');
                 editModal.style.display = 'none';
                 showSuccessToast("Gasto fixo atualizado com sucesso!");

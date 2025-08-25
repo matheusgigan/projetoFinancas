@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         try {
-            const response = await fetch('http://127.0.0.1:8000/api/gastos-fixos/', { headers });
+            const response = await fetch('https://app-financas-matheus.onrender.com/api/gastos-fixos/', { headers });
             if (!response.ok) throw new Error('Falha ao buscar dados.');
 
             const gastosFixos = await response.json();

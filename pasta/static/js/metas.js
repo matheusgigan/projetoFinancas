@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Função Principal para Carregar as Metas ---
     const carregarMetas = async () => {
         try {
-            const response = await fetch('http://127.0.0.1:8000/api/metas-pessoais/', { headers: { 'Authorization': `Token ${token}` } });
+            const response = await fetch('https://app-financas-matheus.onrender.com/api/metas-pessoais/', { headers: { 'Authorization': `Token ${token}` } });
             const metas = await response.json();
 
             listaMetasElement.innerHTML = '';
@@ -73,7 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Envio para a API
             try {
-                const response = await fetch('http://127.0.0.1:8000/api/metas-pessoais/', {
+                const response = await fetch('https://app-financas-matheus.onrender.com/api/metas-pessoais/', {
                     method: 'POST',
                     headers: headers, // 'headers' deve estar definido no escopo superior
                     body: JSON.stringify({ 
@@ -102,7 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (target.classList.contains('edit-meta-btn')) {
                 event.preventDefault();
                 try {
-                    const response = await fetch(`http://127.0.0.1:8000/api/metas-pessoais/${metaId}/`, { headers: { 'Authorization': `Token ${token}` } });
+                    const response = await fetch(`https://app-financas-matheus.onrender.com/api/metas-pessoais/${metaId}/`, { headers: { 'Authorization': `Token ${token}` } });
                     if (!response.ok) throw new Error('Falha ao buscar dados da meta.');
                     const meta = await response.json();
                     editMetaId.value = meta.id;
@@ -116,7 +116,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 event.preventDefault();
                 if (!confirm('Tem certeza que deseja deletar esta meta de poupança?')) return;
                 try {
-                    const response = await fetch(`http://127.0.0.1:8000/api/metas-pessoais/${metaId}/`, { method: 'DELETE', headers: { 'Authorization': `Token ${token}` } });
+                    const response = await fetch(`https://app-financas-matheus.onrender.com/api/metas-pessoais/${metaId}/`, { method: 'DELETE', headers: { 'Authorization': `Token ${token}` } });
                     if (response.status !== 204) throw new Error('Falha ao deletar a meta.');
                     showSuccessToast("Meta deletada com sucesso.");
                     carregarDashboard();
@@ -131,7 +131,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const metaId = editMetaId.value;
             const dados = { nome: editNomeMeta.value, valor_meta: editValorMeta.value };
             try {
-                const response = await fetch(`http://127.0.0.1:8000/api/metas-pessoais/${metaId}/`, { method: 'PATCH', headers, body: JSON.stringify(dados) });
+                const response = await fetch(`https://app-financas-matheus.onrender.com/api/metas-pessoais/${metaId}/`, { method: 'PATCH', headers, body: JSON.stringify(dados) });
                 if (!response.ok) throw new Error('Não foi possível salvar as alterações.');
                 editMetaModal.style.display = 'none';
                 showSuccessToast("Meta atualizada com sucesso!");

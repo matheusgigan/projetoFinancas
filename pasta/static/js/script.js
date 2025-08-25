@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const username = document.getElementById('login-username').value;
             const password = document.getElementById('login-password').value;
             try {
-                const response = await fetch('http://127.0.0.1:8000/api/auth/login/', {
+                const response = await fetch('https://app-financas-matheus.onrender.com/api/auth/login/', {
                     method: 'POST',
                     body: new URLSearchParams({ 'username': username, 'password': password })
                 });

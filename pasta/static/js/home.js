@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
         loader.style.display = 'flex';
         try {
             const buscarDados = async (endpoint) => {
-                const response = await fetch(`http://127.0.0.1:8000/api/${endpoint}/`, { headers });
+                const response = await fetch(`https://app-financas-matheus.onrender.com/api/${endpoint}/`, { headers });
                 if (!response.ok) throw new Error(`Falha ao buscar ${endpoint}`);
                 if (response.status === 204) return [];
                 return response.json();

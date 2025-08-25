@@ -43,8 +43,8 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             // Busca os detalhes do grupo e suas metas em paralelo
             const [grupo, metas] = await Promise.all([
-                fetch(`http://127.0.0.1:8000/api/grupos/${grupoId}/`, { headers }).then(res => res.json()),
-                fetch(`http://127.0.0.1:8000/api/grupos/${grupoId}/metas/`, { headers }).then(res => res.json())
+                fetch(`https://app-financas-matheus.onrender.com/api/grupos/${grupoId}/`, { headers }).then(res => res.json()),
+                fetch(`https://app-financas-matheus.onrender.com/api/grupos/${grupoId}/metas/`, { headers }).then(res => res.json())
             ]);
 
             // Renderiza as informações na tela
@@ -113,7 +113,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const nome = document.getElementById('nome-meta-grupo').value;
         const valor = document.getElementById('valor-meta-grupo').value;
         try {
-            const response = await fetch(`http://127.0.0.1:8000/api/grupos/${grupoId}/metas/`, { method: 'POST', headers, body: JSON.stringify({ nome: nome, valor_meta: valor }) });
+            const response = await fetch(`https://app-financas-matheus.onrender.com/api/grupos/${grupoId}/metas/`, { method: 'POST', headers, body: JSON.stringify({ nome: nome, valor_meta: valor }) });
             if (!response.ok) throw new Error('Falha ao criar a meta.');
             showSuccessToast("Meta de grupo criada!");
             formCriarMetaGrupo.reset();
@@ -133,7 +133,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
             try {
-                const response = await fetch(`http://127.0.0.1:8000/api/grupos/${grupoId}/metas/${metaId}/contribuicoes/`, { method: 'POST', headers, body: JSON.stringify({ valor: valor }) });
+                const response = await fetch(`https://app-financas-matheus.onrender.com/api/grupos/${grupoId}/metas/${metaId}/contribuicoes/`, { method: 'POST', headers, body: JSON.stringify({ valor: valor }) });
                 if (!response.ok) throw new Error('Falha ao registrar contribuição.');
                 showSuccessToast("Contribuição registrada!");
                 carregarDetalhes();
@@ -147,7 +147,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const username = inputUsernameConvite.value;
         if (!username) return;
         try {
-            const response = await fetch(`http://127.0.0.1:8000/api/grupos/${grupoId}/convidar/`, {
+            const response = await fetch(`https://app-financas-matheus.onrender.com/api/grupos/${grupoId}/convidar/`, {
                 method: 'POST',
                 headers: headers,
                 body: JSON.stringify({ username: username })
